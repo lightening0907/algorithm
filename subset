@@ -1,0 +1,58 @@
+#this method using recursion methods to join element in one set
+# with each element of subset of the n-1 list + subset of this n-1 list
+
+import copy
+class Solution(object):
+    def subsets(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: List[List[int]]
+        """
+        ret = []
+
+        l_nums = len(nums)
+        if l_nums == 0:
+            ret.append([])
+            return ret
+        elif l_nums == 1:
+            ret.append([])
+            ret.append(nums)
+            return ret
+        elif l_nums>1:
+            ret_subset = self.subsets(nums[1:])
+            ret_subset_copy = copy.deepcopy(ret_subset)
+            l_subset = len(ret_subset)
+            for i in range(l_subset):
+                ret_subset[i].insert(0,nums[0])
+                ret.append(ret_subset[i])
+            ret = ret_subset_copy + ret
+            return ret
+
+#this methods use binary 1010 to indicate in each place whether the number on each position of the bit is in the
+#element of the subset or not
+class Solution2(object):
+   def subsets(self, nums):
+        """
+        :type nums: List[int]=
+        :rtype: List[List[int]]
+        """
+        l_num = len(nums)
+        pos = 2**l_num
+        ret = []
+        ret.append([])
+        if l_num == 0: return ret
+        nums.sort()
+        for i in range(1,pos):
+            t_ret=[]
+            mask = 1
+            j = 0
+            while mask<=i:
+                if i&mask<>0:
+                    t_ret.append(nums[j])
+                mask = mask<<1
+                j+=1
+            ret.append(t_ret)
+        return ret
+
+Solution1  = Solution2()
+print Solution1.subsets([3,1,2])
