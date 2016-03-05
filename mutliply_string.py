@@ -10,7 +10,7 @@ class Solution(object):
         result_array = []
         # this methods caculate the mulitplication in between different digits in two number
         # and place them in the right position, numbers of the mulitplication of digits in different position
-        # are summed from right to left and jinwei accordingly in the last,
+        # are summed from right to left and jinwei accordingly in the last after mulitplication is done,
         for id_num1 in (range(l1)):
             for id_num2 in (range(l2)):
                 if id_num1 ==0 or id_num2==(l2-1):
