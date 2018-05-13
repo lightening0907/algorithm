@@ -1,6 +1,3 @@
-"""
-Divide two integers without using multiplication, division and mod operator.
-"""
 class Solution(object):
     def divide(self, dividend, divisor):
         """
@@ -8,42 +5,47 @@ class Solution(object):
         :type divisor: int
         :rtype: int
         """
-        if (dividend < 0 and divisor<0) or (dividend > 0 and divisor > 0):
+        quotient = 0 
+        if dividend == 0:
+            return 0
+        if ( dividend > 0 and divisor < 0 ):
+            sign = -1
+            divisor = -divisor
+        elif ( dividend < 0 and divisor > 0 ):
+            sign = -1
+            dividend = -dividend
+        elif (dividend < 0 and divisor < 0):
+            divisor = -divisor
+            dividend = -dividend
             sign = 1
         else:
-            sign = -1
-        dividend = abs(dividend)
-        divisor = abs(divisor)
+            sign = 1
 
-        if divisor > dividend: return 0
-        if divisor == dividend:
-            if sign > 0:
-                return 1
+        temp_sum = divisor
+        quotient_list = [quotient]
+        while temp_sum <= dividend:
+            quotient = 1 
+            while temp_sum < dividend:
+                quotient = quotient << 1
+                temp_sum = temp_sum << 1
             else:
-                return -1
-        if divisor == 0: return None
+                if temp_sum == dividend:
+                    quotient_list.append(quotient)
+                    dividend = 0
+                    temp_sum = divisor
+                    quotient = 0
+                    break
+                else:
+                    quotient = quotient >> 1
+                    quotient_list.append(quotient)
 
-        quotient = 1
-        divisor_shift = divisor
+                    dividend -= temp_sum >> 1
+                    temp_sum = divisor
+                    quotient = 0
 
-        while divisor_shift<<1 <= dividend:
-            divisor_shift = (divisor_shift << 1)
-            quotient = (quotient << 1)
-        if divisor_shift == dividend:
-            if sign>0:
-                return quotient
-            else:
-                return -quotient
+        quotient_list.append(0)            
+        if sign == -1:
+            quotient = -sum(quotient_list)
         else:
-            quotient += self.divide(dividend-divisor_shift,divisor)
-        if sign>0:
-            return quotient
-        else:
-            return -quotient
-
-
-
-Solution1 = Solution()
-
-
-print Solution1.divide(-2147483648,-1)
+            quotient = sum(quotient_list)
+        return min(max(-2147483648, quotient), 2147483647)
