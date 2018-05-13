@@ -35,7 +35,8 @@ class Solution(object):
                     else:
                         dict2[rest].append([nums[i],nums[i]])
             dict1[nums[i]] = dict1.setdefault(nums[i],0) + 1
-        return result_l
+        return
+
 
 Solution1=Solution()
 print Solution1.threeSum([1,2,-2,-1])

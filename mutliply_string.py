@@ -13,7 +13,7 @@ class Solution(object):
         # are summed from right to left and jinwei accordingly in the last after mulitplication is done,
         for id_num1 in (range(l1)):
             for id_num2 in (range(l2)):
-                if id_num1 ==0 or id_num2==(l2-1):
+                if id_num1 == 0 or id_num2==(l2-1):
                     result_array.append(int(num1[id_num1])*int(num2[id_num2]))
                 else: result_array[id_num1+id_num2]=result_array[id_num1+id_num2]+int(num1[id_num1])*int(num2[id_num2])
 

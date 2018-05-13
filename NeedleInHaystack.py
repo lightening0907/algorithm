@@ -1,4 +1,8 @@
 # Implement strStr().
+"""
+Returns the index of the first occurrence of needle in haystack,
+or -1 if needle is not part of haystack.
+"""
 class Solution(object):
     def strStr(self, haystack, needle):
         """
@@ -6,7 +10,7 @@ class Solution(object):
         :type needle: str
         :rtype: int
         """
-        l_hay= len(haystack)
+        l_hay = len(haystack)
         l_nee = len(needle)
         ind_nee = 0
         if not haystack and not needle: return 0
