@@ -52,6 +52,27 @@ class Solution(object):
 
         return temp_list_combine
 
+class Solution(object):
+    def combinationSum(self, candidates, target):
+        """
+        :type candidates: List[int]
+        :type target: int
+        :rtype: List[List[int]]
+        """
+        combination_sets = []
+        len_candidates = len(candidates)
+        if len_candidates == 0:
+            return []
+        for index_c in range(len_candidates):
+            if candidates[index_c] < target:
+                combination_sets_tmp = self.combinationSum(candidates[index_c:], target-candidates[index_c])
+                if len(combination_sets_tmp) > 0 :
+                    for combination_set_tmp in combination_sets_tmp:
+                        combination_sets.append([candidates[index_c]] + combination_set_tmp[:])
+            elif candidates[index_c] == target:
+                combination_sets.append([candidates[index_c]])
+        return combination_sets
+
 Solution1 = Solution()
 print Solution1.combinationSum([4,2,7,5,6],16)
 #[1,2,5],7

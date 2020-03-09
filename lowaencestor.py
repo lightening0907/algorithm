@@ -73,6 +73,48 @@ class Solution:
                 print(A_path[l_anc-1].val)
                 return A_path[l_anc-1]
 
+class Solution2(object):
+    def lowestCommonAncestor(self, root, p, q):
+        """
+        :type root: TreeNode
+        :type p: TreeNode
+        :type q: TreeNode
+        :rtype: TreeNode
+        """
+        if (not root) or (p == root) or (q == root) :
+            return root
+        DFS_list = [(root, 0)]
+        ancester_map = {} # map a node to ancester
+
+        goal = {p: None, q:None}
+        while len(DFS_list) > 0 and len(goal)>0:
+            node, level = DFS_list.pop()
+            if node.left:
+                DFS_list.append((node.left, level + 1))
+                ancester_map[node.left] = (node, level)
+                if node.left in goal:
+                    del goal[node.left]
+
+            if node.right:
+                DFS_list.append((node.right, level + 1))
+                ancester_map[node.right] = (node, level)
+                if node.right in goal:
+                    del goal[node.right]
+
+        ancester_p = (p, ancester_map[p][1] + 1)
+        ancester_q = (q, ancester_map[q][1] + 1)
+        while ancester_p != ancester_q:
+            if ancester_p[1] > ancester_q[1]:
+                ancester_p = ancester_map[ancester_p[0]]
+            elif ancester_p[1] < ancester_q[1]:
+                ancester_q = ancester_map[ancester_q[0]]
+            else:
+                # if ancester_q == ancester_p:
+                #     return ancester_q[0]
+                # else:
+                ancester_p = ancester_map[ancester_p[0]]
+                ancester_q = ancester_map[ancester_q[0]]
+        return ancester_q[0]
 
 tr = treenode(5)
 tr2 = treenode(7)

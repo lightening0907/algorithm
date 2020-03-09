@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 """
 Given a string s and a dictionary of words dict, determine if s can be segmented into a space-separated sequence of one or more dictionary words.
 
@@ -56,7 +58,7 @@ class Solution2(object):
         :rtype: bool
         """
         len_s = len(s)
-        dp = [False]*(len_s +1)
+        dp = [False]*(len_s + 1)
         dp[0] = True
         for i in range(len_s):
             for j in range(i+1):
@@ -64,3 +66,56 @@ class Solution2(object):
                     dp[i+1] = True
                     break
         return dp[len(s)]
+
+
+class Solution3(object):
+    def wordBreak(self, s, wordDict):
+        """
+        :type s: str
+        :type wordDict: List[str]
+        :rtype: bool
+        """
+
+        wordDict_tmp = {}
+        len_list = []
+        max_len = 0
+        if len(wordDict)>0:
+            min_len = len(wordDict[0])
+        else:
+            min_len = 0
+        for word in wordDict:
+
+            wordDict_tmp[word] = True
+            max_len = max(max_len, len(word) )
+            min_len = min(min_len, len(word))
+        wordDict = {word: '' for word in wordDict}
+        visited_wordDict = {}
+        word_break_list = [s]
+        while len(word_break_list)>0:
+            word_break_candidate = word_break_list.pop()
+            visited_wordDict[word_break_candidate] = True
+            if word_break_candidate in wordDict:
+                return True
+            for i in range(min(len(word_break_candidate), max_len)):
+                if word_break_candidate[:i+1] in wordDict:
+                    if len(word_break_candidate[i+1:]) >= min_len and word_break_candidate[i+1:] not in visited_wordDict:
+                        word_break_list.append(word_break_candidate[i+1:])
+        return False
+
+
+"""
+第一面问了Word break变形 输出有效break的可能里最多的break次数
+比如词是“abbc”，字典是"a", "b", "bc", "ab", 有两种可能 一种是a, b, bc,
+一种ab, bc，要输出3
+"""
+
+class Solution4(object):
+    def large_number_work_break(self, s, wordDict):
+        dp = [0] * (len(s) + 1)
+        dp[0] = 1
+        for i in range(len(s)):
+            for j in range(i+1):
+                if dp[j] > 0 and s[j:i+1] in wordDict:
+                    dp[i + 1] = max(dp[i + 1], dp[j] + 1)
+        return dp[-1]-1
+print Solution4().large_number_work_break("catsanddogd", ["cat", "cats", "s", "d", "and", "sand", "dog"])

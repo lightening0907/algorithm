@@ -14,5 +14,48 @@ class Solution:
         elif temp_x < x: return self.find_sqrt(x,temp_r,xrr)
         else: return self.find_sqrt(x,xrl,temp_r)
 
+class Solution2(object):
+    def mySqrt(self, x):
+        """
+        :type x: int
+        :rtype: int
+        """
 
-print(Solution().mySqrt(2))
+        u_bound = x
+        l_bound = 0
+        if u_bound**2 == x:
+            return u_bound
+        if l_bound**2 == x:
+            return l_bound
+        while True:
+            tmp_bound = (u_bound + l_bound)//2
+            if tmp_bound == l_bound:
+                return tmp_bound
+            if tmp_bound**2 < x:
+                l_bound = tmp_bound
+            elif tmp_bound**2 > x:
+                u_bound = tmp_bound
+            else:
+                return tmp_bound
+
+class Solution3(object):
+    def mySqrt(self, x):
+        """
+        :type x: int
+        :rtype: int
+        """
+
+        u_bound = x
+        l_bound = 0
+        while True:
+            tmp_bound = (u_bound + l_bound)*1.0/2
+            tmp_bound_sq = tmp_bound**2
+            if abs(tmp_bound_sq - x) < 0.01:
+                return tmp_bound
+            elif tmp_bound_sq < x:
+                l_bound = tmp_bound
+            else:
+                u_bound = tmp_bound
+
+
+print(Solution3().mySqrt(15))

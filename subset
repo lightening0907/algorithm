@@ -54,5 +54,28 @@ class Solution2(object):
             ret.append(t_ret)
         return ret
 
-Solution1  = Solution2()
+class Solution3(object):
+    def subsets(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: List[List[int]]
+        """
+        num_index_map = {num:i for i, num in enumerate(nums)}
+        power_sets = [[]]
+        subsets = [[]]
+        len_num = len(nums)
+        for iteration in range(len_num):
+            tmp_subsets = []
+            for subset in subsets:
+                if len(subset) == 0:
+                    start_index = 0
+                else:
+                    start_index = num_index_map[subset[-1]] + 1
+                for num_index in range(start_index, len_num):
+                    tmp_subsets.append(subset[:] + [nums[num_index]])
+            subsets = tmp_subsets[:]
+            power_sets.extend(subsets)
+        return power_sets
+
+Solution1  = Solution3()
 print Solution1.subsets([3,1,2])

@@ -72,5 +72,44 @@ class Solution(object):
 
         return res_list
 
+class Solution2(object):
+    def spiralOrder(self, matrix):
+        """
+        :type matrix: List[List[int]]
+        :rtype: List[int]
+        """
+        spiral_values = []
+        if not matrix:
+            return spiral_values
+        num_rows = len(matrix)
+        num_cols = len(matrix[0])
+        l_col_num, u_col_num = 0, num_cols - 1
+        l_row_num, u_row_num = 0, num_rows - 1
+        row_index = 0
+        while True:
+            if l_col_num <= u_col_num:
+                for col_index in range(l_col_num, u_col_num + 1):
+                    spiral_values.append(matrix[row_index][col_index])
+                l_row_num += 1
+            else:
+                return spiral_values
+            if l_row_num <= u_row_num:
+                for row_index in range(l_row_num, u_row_num + 1):
+                    spiral_values.append(matrix[row_index][col_index])
+                u_col_num -= 1
+            else:
+                return spiral_values
+            if u_col_num >= l_col_num:
+                for col_index in range(u_col_num, l_col_num-1, -1):
+                    spiral_values.append(matrix[row_index][col_index])
+                u_row_num -= 1
+            else:
+                return spiral_values
+            if u_row_num >= l_row_num:
+                for row_index in range(u_row_num, l_row_num-1, -1):
+                    spiral_values.append(matrix[row_index][col_index])
+                l_col_num += 1
+            else:
+                return spiral_values
 Solution1 = Solution()
 print Solution1.spiralOrder([[1,2],[3,4]])

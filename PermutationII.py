@@ -5,7 +5,7 @@ For example,
 [1,1,2] have the following unique permutations:
 [1,1,2], [1,2,1], and [2,1,1]
 """
-
+import pdb
 class Solution(object):
     def permuteUnique(self, nums):
         """
@@ -27,6 +27,7 @@ class Solution(object):
                             break
                         else:
                             new_temp_list = temp_list[:j]+[nums[i]]+temp_list[j:]
+                            pdb.set_trace()
                             temp_res.append(new_temp_list)
                 list_res = temp_res
         return list_res

@@ -89,5 +89,46 @@ class Solution2(object):
                                 traveled_ij_dict[w_index]=traveled_ij_dict.get(w_index,[]) + temp_travel
 
         return False
-Solution1 = Solution2()
-print Solution1.exist(["ABCE","SFCS","ADEE"],"ABCCED")
+
+class Solution3(object):
+    def exist(self, board, word):
+        """
+        :type board: List[List[str]]
+        :type word: str
+        :rtype: bool
+        """
+        num_row = len(board)
+        if not num_row:
+            return False
+        num_col = len(board[0])
+        len_word = len(word)
+        for row_index in range(num_row):
+            for col_index in range(num_col):
+                visited_word = {}
+                len_visited_word = 0
+                tb_visited = [(row_index, col_index)]
+                while len(tb_visited) > 0:
+                    ele_tb = tb_visited[-1]
+                    if (ele_tb[0], ele_tb[1]) in visited_word:
+                        del tb_visited[-1]
+                        del visited_word[(ele_tb[0], ele_tb[1])]
+                        len_visited_word -= 1
+                    elif board[ele_tb[0]][ele_tb[1]] == word[len_visited_word]:
+                        len_visited_word += 1
+                        visited_word[(ele_tb[0],ele_tb[1])]=1
+                        if ele_tb[0] - 1 >= 0 and (ele_tb[0] - 1,ele_tb[1]) not in visited_word:
+                            tb_visited.append((ele_tb[0] - 1,ele_tb[1]))
+                        if ele_tb[1] - 1 >= 0 and (ele_tb[0],ele_tb[1] - 1) not in visited_word:
+                            tb_visited.append((ele_tb[0],ele_tb[1] - 1))
+                        if ele_tb[0] + 1 < num_row and (ele_tb[0] + 1, ele_tb[1]) not in visited_word:
+                            tb_visited.append((ele_tb[0] + 1, ele_tb[1]))
+                        if ele_tb[1] + 1 < num_col and (ele_tb[0], ele_tb[1] + 1) not in visited_word:
+                            tb_visited.append((ele_tb[0], ele_tb[1] + 1))
+                    else:
+                        del tb_visited[-1]
+                    if len_visited_word == len_word:
+                        return True
+        return False
+Solution1 = Solution3()
+# print Solution1.exist(["ABCE","SFCS","ADEE"],"ABCCED")
+print Solution1.exist([["a","b"]], "ba")
