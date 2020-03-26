@@ -116,6 +116,59 @@ class Solution2(object):
                 ancester_q = ancester_map[ancester_q[0]]
         return ancester_q[0]
 
+
+class Solution3(object):
+    def lowestCommonAncestor(self, root, p, q):
+        """
+        :type root: TreeNode
+        :type p: TreeNode
+        :type q: TreeNode
+        :rtype: TreeNode
+        """
+        #use dfs to find p or q first
+
+
+        def find_path(node):
+            pointer = root
+            path = [root]
+            dfs = [root]
+            while len(path) > 0:
+
+
+                non_flag = False
+                if pointer is None:
+                    pointer = dfs[-1]
+                    non_flag =True
+                if not non_flag and pointer == node:
+                    break
+                elif not non_flag and pointer.left:
+                    dfs.append(pointer.left)
+                    path.append(pointer.left)
+                    pointer = pointer.left
+                elif pointer.right:
+                    path.append(pointer.right)
+                    dfs.pop()
+                    dfs.append(None)
+                    dfs.append(pointer.right)
+                    pointer = pointer.right
+                else:
+                    path.pop()
+                    dfs.pop()
+                    pointer =None
+                while len(dfs)>1 and dfs[-1] is None:
+                    dfs.pop()
+                    path.pop()
+            return path
+
+        q_path = find_path(q)
+        p_path = find_path(p)
+
+        min_length = min(len(p_path), len(q_path))
+        for i in range(min_length):
+            if p_path[i] != q_path[i]:
+                return p_path[i-1]
+
+        return p_path[i]
 tr = treenode(5)
 tr2 = treenode(7)
 tr3 = treenode(8)
@@ -130,4 +183,8 @@ tr3.right = tr5
 tr2.right = tr6
 tr3.left = tr7
 
-print("result:" + str(Solution().lowestCommonAncestor(tr,tr2,tr3).val))
+# tr = treenode(2)
+# tr2 = treenode(1)
+# tr.right = tr2
+
+print("result:" + str(Solution3().lowestCommonAncestor(tr,tr2,tr3)))

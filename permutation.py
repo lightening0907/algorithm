@@ -26,4 +26,24 @@ class Solution:
                     #print("templ_perm"+str(templ_perm))
             return templ_perm
 
+class Solution2020(object):
+    def permute(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: List[List[int]]
+        """
+        len_nums = len(nums)
+        res=[]
+        for i in range(len_nums):
+            if len(res)==0:
+                res = [[nums[i]]]
+            else:
+                res_tmp = []
+                while len(res) > 0:
+                    list_tba = res.pop()
+                    for ele_index in range(i):
+                        res_tmp.append(list_tba[:ele_index] + [nums[i]] + list_tba[ele_index:])
+                    res_tmp.append(list_tba + [nums[i]])
+                res = res_tmp
+        return res
 print(Solution().permute([1,2,3,4]))

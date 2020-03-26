@@ -1,0 +1,62 @@
+"""
+https://leetcode.com/problems/perfect-squares/
+
+Given a positive integer n, find the least number of perfect square numbers (for example, 1, 4, 9, 16, ...) which sum to n.
+
+Example 1:
+
+Input: n = 12
+Output: 3
+Explanation: 12 = 4 + 4 + 4.
+Example 2:
+
+Input: n = 13
+Output: 2
+Explanation: 13 = 4 + 9.
+"""
+
+class Solution(object):
+    def numSquares(self, n):
+        """
+        :type n: int
+        :rtype: int
+        """
+        init = n//2 + 1
+        while init**2 > n:
+            init -= 1
+        if init**2 == n:
+            return 1
+        elif init == 1:
+            return n
+        elif init**2 > 0:
+            min_val = n
+            while init > 1:
+                min_val = min(min_val, self.numSquares(n - init**2) +1)
+                init -= 1
+            return min_val
+        else:
+            return 0
+
+class Solution2(object):
+    def numSquares(self, n):
+        """
+        :type n: int
+        :rtype: int
+        """
+        sol_list = [0, 1]
+        sqrt_val = 1
+        for i in range(2, n+1):
+            if sqrt_val**2 < i:
+                sqrt_val = sqrt_val + 1
+            elif sqrt_val**2 == i:
+                sol_list.append(1)
+                continue
+            sub_val = 1
+            min_val = i
+            while sub_val**2 <  i:
+                min_val = min(min_val, sol_list[i - sub_val**2])
+                sub_val += 1
+            sol_list.append(min_val + 1)
+        return sol_list[-1]
+Solution1=Solution()
+print(Solution1.numSquares(111))
