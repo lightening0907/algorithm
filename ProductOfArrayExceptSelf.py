@@ -26,3 +26,24 @@ class Solution(object):
             prod_num[i] = prod_num[i]*temp
             temp *= nums[i]
         return prod_num
+
+class Solution(object):
+    def productExceptSelf(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: List[int]
+        """
+        len_nums = len(nums)
+        output = [0]*len_nums
+        for index, num in enumerate(nums):
+            if index == 0:
+                output[index] = 1
+            else:
+                output[index] = output[index - 1] * nums[index - 1]
+
+        cum_multi = 1
+        for index in range(len_nums-1, -1, -1):
+            if index < len_nums  -1:
+                cum_multi *= nums[index + 1]
+                output[index] *= cum_multi
+        return output
